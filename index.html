@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    const getPokemonAJAX = () => {
+      const xhr = new XMLHttpRequest();
+      console.dir("데이터 받기 전 조회 : " + xhr);
+      xhr.open("GET", "https://pokeapi.co/api/v2/pokemon/", true);
+
+      xhr.addEventListener("load" , () => {
+        if (xhr.status === 200){
+          console.log("데이터 받은 후 조회");
+          console.dir(xhr);
+
+          const result = JSON.parse(xhr.responseText);
+
+          console.dir(result);
+
+          const pokemons = result.results;
+          console.dir(pokemons);
+
+          const root = document.getElementById("root");
+          const ul = document.createElement("ul");
+          pokemons.forEach((pokemon) => {
+            const li = document.createElement("li");
+            li.textContent = pokemon.name;
+            ul.appendChild(li);
+          });
+          root.appendChild(ul);
+        }
+      });
+      xhr.send();
+    };
+    getPokemonAJAX();
+  </script>
+</body>
+</html>
+
+<!-- ? 인터넷에서 받아온 자료를 이용해서도 .name을 뽑아 쓸 수 있음 -->
